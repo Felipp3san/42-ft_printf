@@ -16,6 +16,8 @@ size_t	ft_printstr(char *str)
 {
 	size_t	size;
 
+	if (!str)
+		str = "(null)";
 	ft_putstr_fd(str, 1);
 	size = ft_strlen(str);
 	return (size);

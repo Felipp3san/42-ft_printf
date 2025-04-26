@@ -27,6 +27,8 @@ size_t	ft_printptr(uintptr_t ptr)
 {
 	size_t	size;
 
+	if (!ptr)
+		return (ft_printstr("(nil)"));
 	ft_putstr_fd("0x", 1);
 	size = ptr_hex(ptr, 2);
 	return (size);

@@ -2,7 +2,8 @@
 CC			= cc
 AR			= ar rcs
 RM			= rm -f
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -I
+TESTFLAGS	= -g -fsanitize=address -I
 NAME		= libftprintf.a
 TEST_FILE	= test_ft_printf.c
 
@@ -40,8 +41,8 @@ OBJS 		= $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 # Rules
 all: $(NAME)
 
-test: all $(TEST_FILE)
-	@cc $(CFLAGS) -o $@ $(TEST_FILE) -L. -lftprintf
+test: all $(SRC_DIR)/$(TEST_FILE)
+	@cc $(TESTFLAGS) $(INCLUDE_DIR) -o $@ $(SRC_DIR)/$(TEST_FILE) -L. -lftprintf
 	@echo "$(GREEN)Test file compiled!$(DEF_COLOR)"
 
 $(NAME): $(OBJS)
@@ -50,13 +51,9 @@ $(NAME): $(OBJS)
 	@$(AR) $(NAME) $(OBJS)
 	@echo "$(GREEN)ft_printf compiled!$(DEF_COLOR)"
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c ./include/libft.h | $(BUILD_DIR)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)" 
-	@$(CC) $(CFLAGS) -I./$(INCLUDE_DIR) -I./$(LIBFT_DIR)/$(INCLUDE_DIR) -c $< -o $@
-
-./include/libft.h:
-	@echo "$(YELLOW)Copying libft.h to include folder$(DEF_COLOR)" 
-	@cp libft/include/libft.h ./include
+	@$(CC) $(CFLAGS) $(INCLUDE_DIR) -I./$(LIBFT_DIR)/$(INCLUDE_DIR) -c $< -o $@
 
 $(BUILD_DIR):
 	@echo "$(YELLOW)Build dir not found. Creating...$(DEF_COLOR)" 
