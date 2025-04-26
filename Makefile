@@ -61,10 +61,14 @@ $(BUILD_DIR):
 
 clean:
 	@rm -rf $(BUILD_DIR)
-	@echo "$(CYAN)Object files cleaned!$(DEF_COLOR)" 
+	@make -C $(LIBFT_DIR) clean
+	@echo "$(CYAN)ft_printf object files cleaned!$(DEF_COLOR)" 
+	@echo "$(CYAN)libft object files cleaned!$(DEF_COLOR)" 
 
 fclean: clean
 	@$(RM) $(NAME)
+	@make -C $(LIBFT_DIR) fclean
+	@$(RM) test
 	@echo "$(CYAN)libftprintf.a cleaned!$(DEF_COLOR)" 
 	@echo "$(CYAN)libft.a cleaned!$(DEF_COLOR)" 
 

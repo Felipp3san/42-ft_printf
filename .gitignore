@@ -1,1 +1,4 @@
-libft
+./libft/
+./build/
+./libftprintf.a
+./test
