@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printchar.c                                     :+:      :+:    :+:   */
+/*   ft_printstr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 19:31:23 by fde-alme          #+#    #+#             */
-/*   Updated: 2025/04/25 19:33:49 by fde-alme         ###   ########.fr       */
+/*   Created: 2025/04/25 19:28:15 by fde-alme          #+#    #+#             */
+/*   Updated: 2025/04/25 19:31:15 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_printchar(char ch)
+size_t	ft_printstr(char *str)
 {
-	ft_putchar_fd(ch, 1);
-	return (1);
+	size_t	size;
+
+	ft_putstr_fd(str, 1);
+	size = ft_strlen(str);
+	return (size);
 }

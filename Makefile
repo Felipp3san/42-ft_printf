@@ -1,47 +1,78 @@
-CFLAGS = -Wall -Wextra -Werror
+#Variables
+CC			= cc
+AR			= ar rcs
+RM			= rm -f
+CFLAGS		= -Wall -Wextra -Werror
+NAME		= libftprintf.a
+TEST_FILE	= test_ft_printf.c
 
-NAME = libftprintf.a
+#Folders
+LIBFT_DIR	= libft
+INCLUDE_DIR	= include
+SRC_DIR		= src
+BUILD_DIR	= build
 
-TEST_FILE = test_ft_printf
+# Colors
+DEF_COLOR	= \033[0;39m
+GRAY		= \033[0;90m
+RED			= \033[0;91m
+GREEN		= \033[0;92m
+YELLOW		= \033[0;93m
+BLUE		= \033[0;94m
+MAGENTA		= \033[0;95m
+CYAN		= \033[0;96m
+WHITE		= \033[0;97m
 
-SRC_FILES = ft_printf.c \
-			ft_printnbr.c \
-			ft_putnbr_base.c \
-			ft_printstr.c \
-			ft_printchar.c \
-			ft_printptr.c \
-			ft_printunbr_base.c \
-			ft_nbdigits_base.c \
-			ft_uitoa_base.c
+# Sources
+SRC_FILES =	ft_printf \
+			ft_printnbr \
+			ft_putnbr_base \
+			ft_printstr \
+			ft_printchar \
+			ft_printptr \
+			ft_printunbr_base \
+			ft_nbdigits_base \
+			ft_uitoa_base
 
-LIBFT_PATH = ./libft
-LIBFT = $(LIBFT_PATH)/libft.a
+SRCS		= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
+OBJS 		= $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
-LIBPRINTF = -L./ -lftprintf
+# Rules
+all: $(NAME)
 
-OBJ_FILES = $(SRC_FILES:.c=.o)
+test: all $(TEST_FILE)
+	@cc $(CFLAGS) -o $@ $(TEST_FILE) -L. -lftprintf
+	@echo "$(GREEN)Test file compiled!$(DEF_COLOR)"
 
-all: $(NAME) $(TEST_FILE)
+$(NAME): $(OBJS)
+	@make -C $(LIBFT_DIR)
+	@cp $(LIBFT_DIR)/libft.a $(NAME)
+	@$(AR) $(NAME) $(OBJS)
+	@echo "$(GREEN)ft_printf compiled!$(DEF_COLOR)"
 
-$(TEST_FILE): $(NAME)
-	cc $(CFLAGS) -o $@ $(addsuffix .c, $(TEST_FILE)) $(LIBPRINTF)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c ./include/libft.h | $(BUILD_DIR)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)" 
+	@$(CC) $(CFLAGS) -I./$(INCLUDE_DIR) -I./$(LIBFT_DIR)/$(INCLUDE_DIR) -c $< -o $@
 
-$(NAME): $(LIBFT) $(OBJ_FILES)
-	@cp $(LIBFT) $(NAME)
-	ar rcs $@ $(OBJ_FILES)
+./include/libft.h:
+	@echo "$(YELLOW)Copying libft.h to include folder$(DEF_COLOR)" 
+	@cp libft/include/libft.h ./include
 
-$(LIBFT):
-	make -C $(LIBFT_PATH)
-
-%.o: %.c
-	cc $(CFLAGS) -c $^
+$(BUILD_DIR):
+	@echo "$(YELLOW)Build dir not found. Creating...$(DEF_COLOR)" 
+	@mkdir $(BUILD_DIR)
 
 clean:
-	rm -f $(OBJ_FILES)
+	@rm -rf $(BUILD_DIR)
+	@echo "$(CYAN)Object files cleaned!$(DEF_COLOR)" 
 
 fclean: clean
-	rm -f $(NAME)
+	@$(RM) $(NAME)
+	@echo "$(CYAN)libftprintf.a cleaned!$(DEF_COLOR)" 
+	@echo "$(CYAN)libft.a cleaned!$(DEF_COLOR)" 
 
-re: clean all
+re: fclean all
+	@echo "$(GREEN)Cleaned and rebuilt ft_printf!$(DEF_COLOR)" 
 
-.PHONY: all clean fclean re
+# Phony
+.PHONY:		all clean fclean re

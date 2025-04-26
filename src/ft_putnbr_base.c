@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printunbr_base.c                                :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 21:35:02 by fde-alme          #+#    #+#             */
-/*   Updated: 2025/04/25 21:35:04 by fde-alme         ###   ########.fr       */
+/*   Created: 2025/04/25 13:10:17 by fde-alme          #+#    #+#             */
+/*   Updated: 2025/04/25 13:10:50 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_printunbr_base(unsigned int nbr, const char *base)
+static size_t	get_base(char	*str)
 {
-	char	*str;
-	size_t	size;
+	return (ft_strlen(str));
+}
 
-	str = ft_uitoa_base(nbr, base);
-	size = ft_strlen(str);
-	ft_putstr_fd(str, 1);
-	free(str);
-	return (size);
+void	ft_putnbr_base(int nb, char *base)
+{
+	unsigned int	nbr;
+	size_t			base_size;
+
+	base_size = get_base(base);
+	if (nb < 0)
+	{
+		ft_putchar_fd('-', 1);
+		nbr = -nb;
+	}
+	nbr = nb;
+	if (nbr >= base_size)
+		ft_putnbr_base((nbr / base_size), base);
+	ft_putchar_fd(base[nbr % base_size], 1);
 }

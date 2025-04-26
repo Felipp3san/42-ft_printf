@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printstr.c                                      :+:      :+:    :+:   */
+/*   ft_printunbr_base.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 19:28:15 by fde-alme          #+#    #+#             */
-/*   Updated: 2025/04/25 19:31:15 by fde-alme         ###   ########.fr       */
+/*   Created: 2025/04/25 21:35:02 by fde-alme          #+#    #+#             */
+/*   Updated: 2025/04/25 21:35:04 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_printstr(char *str)
+size_t	ft_printunbr_base(unsigned int nbr, const char *base)
 {
+	char	*str;
 	size_t	size;
 
-	ft_putstr_fd(str, 1);
+	str = ft_uitoa_base(nbr, base);
 	size = ft_strlen(str);
+	ft_putstr_fd(str, 1);
+	free(str);
 	return (size);
 }

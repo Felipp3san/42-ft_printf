@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printnbr.c                                      :+:      :+:    :+:   */
+/*   ft_nbdigits_base.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 19:20:38 by fde-alme          #+#    #+#             */
-/*   Updated: 2025/04/25 19:21:06 by fde-alme         ###   ########.fr       */
+/*   Created: 2025/04/25 21:32:32 by fde-alme          #+#    #+#             */
+/*   Updated: 2025/04/25 21:32:34 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_printnbr(int nbr)
+size_t	ft_nbdigits_base(unsigned long long nbr, size_t base_len)
 {
-	char	*str;
-	size_t	size;
+	size_t	count;
 
-	str = ft_itoa(nbr);
-	size = ft_strlen(str);
-	ft_putstr_fd(str, 1);
-	free(str);
-	return (size);
+	count = 1;
+	while (nbr >= base_len)
+	{
+		nbr = nbr / base_len;
+		count++;
+	}
+	return (count);
 }
